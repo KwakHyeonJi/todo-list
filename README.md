@@ -8,6 +8,7 @@
 * React
 * JavaScript
 * Styled components
+* ContextAPI
 * NodeJS
 * Express
 * Axios
