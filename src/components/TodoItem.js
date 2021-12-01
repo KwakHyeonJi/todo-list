@@ -1,3 +1,4 @@
+import { memo, useCallback } from 'react';
 import styled from 'styled-components';
 import { MdDelete } from 'react-icons/md';
 
@@ -6,6 +7,7 @@ import {
   useModDispatch,
 } from 'components/contexts/todoContext';
 import TodoCheckBox from 'components/TodoCheckBox';
+import React from 'react';
 
 const Wrapper = styled.li`
   position: relative;
@@ -41,13 +43,13 @@ const StyledDeleteButton = styled.button`
   }
 `;
 
-const DeleteButton = ({ onClick }) => {
+const DeleteButton = memo(({ onClick }) => {
   return (
     <StyledDeleteButton type="button" onClick={onClick}>
       <MdDelete size={20} />
     </StyledDeleteButton>
   );
-};
+});
 
 const TodoItem = ({ id, text, done }) => {
   const dispatch = useTodoDispatch();
@@ -57,10 +59,10 @@ const TodoItem = ({ id, text, done }) => {
     dispatch({ type: 'TOGGLE', id });
     modDispatch({ type: 'CHANGED' });
   };
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     dispatch({ type: 'DELETE', id });
     modDispatch({ type: 'CHANGED' });
-  };
+  }, [dispatch, id, modDispatch]);
 
   return (
     <Wrapper>
@@ -71,4 +73,4 @@ const TodoItem = ({ id, text, done }) => {
   );
 };
 
-export default TodoItem;
+export default memo(TodoItem);

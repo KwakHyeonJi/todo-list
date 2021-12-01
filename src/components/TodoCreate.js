@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -60,20 +60,20 @@ const CreateForm = styled.form`
   }
 `;
 
-const UndoneTasks = () => {
+const UndoneTasks = memo(() => {
   const state = useTodoState();
   const undoneTasks = state.filter((todo) => !todo.done).length;
   return <span>{undoneTasks} TASKS</span>;
-};
+});
 
-const CreateButton = ({ onClick, open }) => {
+const CreateButton = memo(({ onClick, open }) => {
   return (
     <StyledCreateButton type="button" onClick={onClick}>
       {open ? 'CANCEL' : 'ADD NEW'}
       <PlusIcon open={open} />
     </StyledCreateButton>
   );
-};
+});
 
 const TodoCreate = () => {
   const dispatch = useTodoDispatch();
@@ -83,6 +83,7 @@ const TodoCreate = () => {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
 
+  const handleOpen = useCallback(() => setOpen(!open), [open]);
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch({
@@ -98,7 +99,7 @@ const TodoCreate = () => {
   return (
     <Wrapper>
       <UndoneTasks />
-      <CreateButton open={open} onClick={() => setOpen(!open)} />
+      <CreateButton open={open} onClick={handleOpen} />
       {open && (
         <CreateForm onSubmit={handleSubmit}>
           <input
