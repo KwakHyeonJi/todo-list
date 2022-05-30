@@ -1,14 +1,63 @@
-import { useState, memo, useCallback } from 'react';
+import React, { useState, memo, useCallback } from 'react';
 import styled from 'styled-components';
 
 import {
   useTodoState,
   useTodoDispatch,
-  useModDispatch,
   useTodoNextId,
-} from 'components/contexts/todoContext';
+  useTodoSync,
+} from 'contexts/todoProvider';
 
-const Wrapper = styled.div`
+const UndoneTasks = memo(() => {
+  const todos = useTodoState();
+  const undoneTasks = todos.filter((todo) => !todo.done).length;
+  return <span>{undoneTasks} TASKS</span>;
+});
+
+const TodoCreate = () => {
+  const dispatch = useTodoDispatch();
+  const nextId = useTodoNextId();
+  const { setSync } = useTodoSync();
+
+  const [open, setOpen] = useState(false);
+  const [input, setInput] = useState('');
+
+  const handleOpen = useCallback(() => setOpen(!open), [open]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: 'CREATE',
+      id: nextId.current++,
+      text: input,
+    });
+    setInput('');
+    setOpen(false);
+    setSync(false);
+  };
+
+  return (
+    <TodoCreateWrapper>
+      <UndoneTasks />
+      <CreateButton type="button" onClick={handleOpen} open={open}>
+        {open ? 'CANCEL' : 'ADD NEW'}
+      </CreateButton>
+      {open && (
+        <CreateForm onSubmit={handleSubmit}>
+          <input
+            placeholder={'할 일을 입력 후 Enter를 누르세요'}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            autoFocus
+            required
+            maxLength="100"
+          />
+        </CreateForm>
+      )}
+    </TodoCreateWrapper>
+  );
+};
+
+const TodoCreateWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -18,25 +67,22 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100px;
   padding: 0 40px;
-
-  border-top: 1px solid #d2d2d2;
-  background: #fff;
+  border-top: 1px solid ${({ theme }) => theme.secondaryColor};
+  background: ${({ theme }) => theme.primaryColor};
 `;
 
-const StyledCreateButton = styled.button`
-  padding-right: 15px;
-`;
+const CreateButton = styled.button`
+  padding-right: 30px;
 
-const PlusIcon = styled.div`
   &:before,
   &:after {
     content: '';
     position: absolute;
     top: 50%;
-    right: 40px;
+    right: 50px;
     transform: translate(50%, -50%)
-      ${(props) => (props.open ? 'rotate(45deg)' : '')};
-    transition: 0.5s ease;
+      ${({ open }) => (open ? 'rotate(45deg)' : '')};
+    transition: 0.2s ease;
   }
 
   &:before {
@@ -52,68 +98,12 @@ const PlusIcon = styled.div`
 const CreateForm = styled.form`
   position: absolute;
   input {
-    width: 320px;
-    padding: 8px 10px;
+    width: 310px;
+    padding: 0.5rem 0.7rem;
     border-radius: 5px;
-    border: 1px solid #d2d2d2;
+    border: 1px solid ${({ theme }) => theme.secondaryColor};
     font-size: 0.9rem;
   }
 `;
-
-const UndoneTasks = memo(() => {
-  const state = useTodoState();
-  const undoneTasks = state.filter((todo) => !todo.done).length;
-  return <span>{undoneTasks} TASKS</span>;
-});
-
-const CreateButton = memo(({ onClick, open }) => {
-  return (
-    <StyledCreateButton type="button" onClick={onClick}>
-      {open ? 'CANCEL' : 'ADD NEW'}
-      <PlusIcon open={open} />
-    </StyledCreateButton>
-  );
-});
-
-const TodoCreate = () => {
-  const dispatch = useTodoDispatch();
-  const modDispatch = useModDispatch();
-  const nextId = useTodoNextId();
-
-  const [open, setOpen] = useState(false);
-  const [input, setInput] = useState('');
-
-  const handleOpen = useCallback(() => setOpen(!open), [open]);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch({
-      type: 'CREATE',
-      id: nextId.current++,
-      text: input,
-    });
-    setInput('');
-    setOpen(false);
-    modDispatch({ type: 'CHANGED' });
-  };
-
-  return (
-    <Wrapper>
-      <UndoneTasks />
-      <CreateButton open={open} onClick={handleOpen} />
-      {open && (
-        <CreateForm onSubmit={handleSubmit}>
-          <input
-            placeholder={'할 일을 입력 후 Enter를 누르세요'}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            autoFocus
-            required
-            maxLength="100"
-          />
-        </CreateForm>
-      )}
-    </Wrapper>
-  );
-};
 
 export default TodoCreate;

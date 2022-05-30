@@ -1,19 +1,14 @@
+import React from 'react';
 import styled from 'styled-components';
 
-import { useTodoState } from 'components/contexts/todoContext';
+import { useTodoState } from 'contexts/todoProvider';
 import TodoItem from 'components/TodoItem';
 
-const Wrapper = styled.ul`
-  overflow-x: hidden;
-  height: 420px;
-  margin-top: 50px;
-`;
-
 const TodoList = () => {
-  const state = useTodoState();
+  const todos = useTodoState();
   return (
-    <Wrapper>
-      {state.map((todo) => (
+    <TodoListWrapper>
+      {todos.map((todo) => (
         <TodoItem
           key={todo.id}
           id={todo.id}
@@ -21,8 +16,14 @@ const TodoList = () => {
           done={todo.done}
         />
       ))}
-    </Wrapper>
+    </TodoListWrapper>
   );
 };
+
+const TodoListWrapper = styled.ul`
+  overflow-x: hidden;
+  height: 460px;
+  margin-top: 30px;
+`;
 
 export default TodoList;
