@@ -69,6 +69,7 @@ const TodoCreateWrapper = styled.div`
   padding: 0 40px;
   border-top: 1px solid ${({ theme }) => theme.secondaryColor};
   background: ${({ theme }) => theme.primaryColor};
+  transition: background 0.5s ease, border-top 0.5s ease;
 `;
 
 const CreateButton = styled.button`
@@ -82,7 +83,7 @@ const CreateButton = styled.button`
     right: 50px;
     transform: translate(50%, -50%)
       ${({ open }) => (open ? 'rotate(45deg)' : '')};
-    transition: 0.2s ease;
+    transition: transform 0.2s ease;
   }
 
   &:before {
@@ -97,12 +98,15 @@ const CreateButton = styled.button`
 
 const CreateForm = styled.form`
   position: absolute;
+
   input {
     width: 310px;
     padding: 0.5rem 0.7rem;
     border-radius: 5px;
     border: 1px solid ${({ theme }) => theme.secondaryColor};
+    background: ${({ theme }) => theme.primaryColor};
     font-size: 0.9rem;
+    transition: all 0.5s ease;
   }
 `;
 

@@ -39,6 +39,7 @@ const TodoHeaderWrapper = styled.div`
     p:last-child {
       color: ${({ theme }) => theme.secondaryColor};
       font-weight: 500;
+      transition: color 0.5s ease;
     }
   }
 

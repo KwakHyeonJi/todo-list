@@ -1,6 +1,6 @@
 const theme = {
   successColor: '#50e3a4',
-  dangerColor: '#ff5a5a',
+  dangerColor: '#ff4d55',
 };
 
 export const lightTheme = {
@@ -13,6 +13,6 @@ export const lightTheme = {
 export const darkTheme = {
   ...theme,
   primaryColor: '#22252d',
-  secondaryColor: '#292d36',
+  secondaryColor: '#37373d',
   textColor: '#fff',
 };

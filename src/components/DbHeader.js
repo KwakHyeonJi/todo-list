@@ -10,6 +10,7 @@ import {
   useTodoNextId,
   useTodoSync,
 } from 'contexts/todoProvider';
+import ThemeToggle from 'components/ThemeToggle';
 
 const DbHeader = () => {
   const todos = useTodoState();
@@ -56,6 +57,7 @@ const DbHeader = () => {
 
   return (
     <DbHeaderWrapper>
+      <ThemeToggle />
       <ResetButton type="button" onClick={handleReset} sync={sync}>
         <MdRefresh size={20} />
       </ResetButton>
@@ -70,13 +72,17 @@ const DbHeaderWrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: end;
+  align-items: center;
 
   button {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 5px;
-    border-radius: 5px;
+  }
+
+  button:first-child {
+    margin-right: 1rem;
   }
 
   button + button {
@@ -88,8 +94,10 @@ const ResetButton = styled.button`
   ${({ theme, sync }) => {
     return css`
       border: 1px solid ${theme.secondaryColor};
+      border-radius: 5px;
       background: ${theme.primaryColor};
       pointer-events: ${sync ? 'none' : 'auto'};
+      transition: all 0.5s ease;
 
       &:active {
         background: ${darken(0.1, theme.primaryColor)};
@@ -104,15 +112,20 @@ const SaveButton = styled.button`
     const danger = theme.dangerColor;
 
     return css`
+      border: 1px solid ${sync ? success : danger};
+      border-radius: 5px;
       background: ${sync ? success : danger};
-      color: ${theme.primaryColor};
+      color: #fff;
       pointer-events: ${sync ? 'none' : 'auto'};
+      transition: all 0.5s ease;
 
       &:hover {
+        border: 1px solid ${sync ? lighten(0.1, success) : lighten(0.1, danger)};
         background: ${sync ? lighten(0.1, success) : lighten(0.1, danger)};
       }
 
       &:active {
+        border: 1px solid ${sync ? darken(0.1, success) : darken(0.1, danger)};
         background: ${sync ? darken(0.1, success) : darken(0.1, danger)};
       }
     `;

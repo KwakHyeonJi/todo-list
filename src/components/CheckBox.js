@@ -13,6 +13,7 @@ const CheckBox = ({ id, checked, onChange }) => {
 const CheckBoxWrapper = styled.div`
   input {
     display: none;
+
     &:checked + label:before {
       border-left: 3px solid ${({ theme }) => theme.successColor};
       border-bottom: 3px solid ${({ theme }) => theme.successColor};
@@ -27,6 +28,7 @@ const CheckBoxWrapper = styled.div`
     border-radius: 8px;
     background: transparent;
     cursor: pointer;
+    transition: border 0.5s ease;
 
     &:before {
       content: '';

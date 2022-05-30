@@ -18,6 +18,7 @@ const GlobalStyle = createGlobalStyle`
     background: ${({ theme }) => theme.primaryColor};
     color: ${({ theme }) => theme.textColor};
     font-family: 'Poppins', sans-serif;
+    transition: background 0.5s ease, color 0.5s ease;
   }
 
   button {

@@ -49,6 +49,7 @@ const TodoWrapper = styled.div`
   padding: 30px 40px;
   background: ${({ theme }) => theme.primaryColor};
   box-shadow: 2px 2px 12px rgb(0, 0, 0, 0.2);
+  transition: background 0.5s ease;
 `;
 
 export default Todo;

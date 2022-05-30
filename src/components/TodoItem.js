@@ -56,6 +56,7 @@ const Text = styled.span`
       font-size: 1.1rem;
       line-height: normal;
       white-space: nowrap;
+      transition: color 0.5s ease;
     `;
   }}
 `;
