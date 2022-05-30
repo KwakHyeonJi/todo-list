@@ -4,7 +4,8 @@
 
 # Demo
 
-![todo-list-image](https://user-images.githubusercontent.com/22536999/171010482-32aae7c8-436a-4f5d-9263-63001fd680a1.PNG)
+![todo-list-image-light](https://user-images.githubusercontent.com/22536999/171042072-99d00e72-de93-435d-8499-11f8f6535bb3.PNG)
+![todo-list-image-dark](https://user-images.githubusercontent.com/22536999/171042059-e73c4182-06cf-477b-bcac-d48babfd63ca.PNG)
 
 # Technologies
 
@@ -23,8 +24,5 @@
 - Add and delete to-do
 - Check remaining to-dos
 - Check database connection
-- Database Synchronization
-
-# What to add
-
-- React performance optimization
+- Database synchronization
+- Apply light/dark theme
