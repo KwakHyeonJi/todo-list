@@ -23,6 +23,5 @@
 - Check the current date
 - Add and delete to-do
 - Check remaining to-dos
-- Check database connection
 - Database synchronization
 - Apply light/dark theme
