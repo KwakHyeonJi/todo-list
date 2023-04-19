@@ -1,15 +1,12 @@
-const express = require('express');
-const app = express();
+const dotenv = require('dotenv')
+dotenv.config()
 
-const dotenv = require('dotenv');
-dotenv.config();
+const express = require('express')
+const app = express()
 
-const cors = require('cors');
-app.use(cors());
+const api = require('./src/routes')
 
-app.use(express.json());
+app.use(express.json())
+app.use('/api', api)
 
-const api = require('./src/routes');
-app.use('/api', api);
-
-module.exports = app;
+module.exports = app

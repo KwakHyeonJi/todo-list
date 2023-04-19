@@ -1,40 +1,80 @@
-const db = require('../config/db');
+const db = require('../config/db')
 
-const getTodos = (req, res) => {
-  db.query('SELECT * FROM Todos;', (err, data) => {
-    if (!err) {
-      res.send(data);
-    } else {
-      res.send(err);
+const getTodos = async (_, res) => {
+    try {
+        const sql = 'SELECT * FROM todos'
+        const conn = await db.getConnection()
+        const [result] = await conn.query(sql)
+
+        conn.release()
+
+        res.status(200).json({ todos: result })
+    } catch (error) {
+        console.error('데이터 조회 실패:', error)
+        res.status(500).json({ error: '서버 오류' })
     }
-  });
-};
+}
 
-const saveTodos = (req, res) => {
-  db.query('TRUNCATE Todos', (err) => {
-    if (!err) {
-      const todos = req.body.todos;
-      if (todos.length) {
-        const values = [];
-        todos.map((todo) => values.push(Object.values(todo)));
-        db.query(
-          'INSERT INTO Todos (idx, text, done) VALUES ?;',
-          [values],
-          (err) => {
-            if (!err) {
-              res.send({ success: true });
-            } else {
-              res.send({ success: false, msg: err.message });
-            }
-          }
-        );
-      } else {
-        res.send({ success: true });
-      }
-    } else {
-      res.send({ success: false, msg: err.message });
+const createTodo = async (req, res) => {
+    const { text } = req.body
+    if (!text) {
+        res.status(400).json({ error: '입력 내용 누락' })
+        return
     }
-  });
-};
 
-module.exports = { getTodos, saveTodos };
+    try {
+        const sql = 'INSERT INTO todos (text, done) VALUES (?, ?)'
+        const done = false
+        const conn = await db.getConnection()
+        const [{ insertId }] = await conn.query(sql, [text, done])
+
+        conn.release()
+
+        res.status(201).json({ id: insertId, text, done })
+    } catch (error) {
+        console.error('데이터 삽입 실패:', error)
+        res.status(500).json({ error: '서버 오류' })
+    }
+}
+
+const deleteTodo = async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const sql = 'DELETE FROM todos WHERE id = ?'
+        const conn = await db.getConnection()
+
+        await conn.query(sql, id)
+        conn.release()
+
+        res.status(204).json()
+    } catch (error) {
+        console.error('데이터 삭제 실패:', error)
+        res.status(500).json({ error: '서버 오류' })
+    }
+}
+
+const updateTodo = async (req, res) => {
+    const { id } = req.params
+    const { text, done } = req.body
+
+    if (!text) {
+        res.status(400).json({ error: '입력 내용 누락' })
+        return
+    }
+
+    try {
+        const sql = 'UPDATE todos SET text = ?, done = ? WHERE id = ?'
+        const conn = await db.getConnection()
+        await conn.query(sql, [text, done, id])
+
+        conn.release()
+
+        res.status(200).json({ id: Number(id), text, done })
+    } catch (error) {
+        console.error('데이터 수정 실패:', error)
+        res.status(500).json({ error: '서버 오류' })
+    }
+}
+
+module.exports = { getTodos, createTodo, deleteTodo, updateTodo }
