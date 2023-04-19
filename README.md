@@ -1,27 +1,21 @@
-# Introduction
+# todo-list
 
-- To-do list with database
+## 🔍 Introduction
+
+To-do list with database
 
 # Demo
-![todo-list-demo-light](https://user-images.githubusercontent.com/22536999/171171776-902b2a94-835b-423c-ae95-fd3978328ef5.png)
-![todo-list-demo-dark](https://user-images.githubusercontent.com/22536999/171171782-8fd7f9db-de91-4ace-8884-61dc79d9a272.png)
 
+![localhost_9999_](https://user-images.githubusercontent.com/22536999/233048378-bc5816f7-d09a-4ef7-898a-11b093d2a028.png)
+![localhost_9999_ (1)](https://user-images.githubusercontent.com/22536999/233048439-81d4e1f1-af96-4ff1-b7eb-7ec323a4e58a.png)
 
-# Technologies
+## 🛠 Technologies
 
-- React
-- JavaScript
-- Styled components
-- ContextAPI
-- NodeJS
-- Express
-- Axios
-- MySQL
+<img src="https://img.shields.io/badge/React-20232a?style=for-the-badge&logo=React&logoColor=61DAFB"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=ffffff"> <img src="https://img.shields.io/badge/Styled Components-DB7093?style=for-the-badge&logo=styled-components&logoColor=ffffff"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=ffffff"> <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white"/>
 
-# Features
+## ⚙ Features
 
-- Check the current date
-- Add and delete to-do
-- Check remaining to-dos
-- Database synchronization
-- Apply light/dark theme
+-   Adding tasks
+-   Checking off completed tasks
+-   Deleting tasks
+-   Light/Dark theme
